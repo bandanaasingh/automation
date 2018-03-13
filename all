@@ -1,0 +1,67 @@
+var webdriver=require('selenium-webdriver');
+var By=require('selenium-webdriver').By;
+var until=require('selenium-webdriver').until;
+
+//this requires to include the mocha describe,each.....
+var test = require('selenium-webdriver/testing');
+
+var fs=require('fs');
+
+var chrome = require('selenium-webdriver/chrome');
+var path = require('chromedriver').path;
+
+var service = new chrome.ServiceBuilder(path).build();
+chrome.setDefaultService(service);
+
+var driver = new webdriver.Builder()
+    .withCapabilities(webdriver.Capabilities.chrome())
+    .build();
+
+// driver.findElements(webdriver.By.css('[href^="/wiki/"]')).then(function(links){
+//     console.log('Found',links.length,'wiki links');
+//     driver.quit();
+
+//takes screenshot of entire page.
+// driver.takeScreenshot().then(function(data){
+//     fs.writeFileSync('img.png',data,'base64');
+// });
+
+
+
+// driver.get('https://staging.keela.co/login'),10000;
+
+
+
+// driver.wait(until.elementLocated(By.name('login-email')),5000).then(function(email){
+//     email.sendKeys('badnaa@gmail.com');
+// });
+
+
+test.describe( 'Test Suite' , function(){
+  this.timeout(500000);
+
+    test.beforeEach(function(){
+    
+        driver.get('https://staging.keela.co/login');
+        
+    });
+ 
+    test.afterEach(function(){
+        driver.quit();
+    });
+ 
+    test.it( 'Test Case' , function(){
+        // driver.findElement(webdriver.By.id('login-email')).sendKeys('bandana@yopmail.com');
+        // driver.findElement(webdriver.By.id('login-password')).sendKeys('ttttt');
+ 
+        // // a promise is returned while ‘click’ action
+        // // is registered in ‘driver’ object
+        // return driver.findElement(webdriver.By.linkText("Log In")).click();
+    driver.manage().timeouts().implicitlyWait(50000);
+        driver.findElement(webdriver.By.xpath('//*[@id="login-email"]')).then(function(title){
+            title.sendKeys("bandana@yopmail.com");
+        });
+    });
+ 
+});
+
